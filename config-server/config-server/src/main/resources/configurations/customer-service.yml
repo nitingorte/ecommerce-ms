@@ -1,0 +1,14 @@
+spring:
+  data:
+    mongodb:
+      username: ecommerce
+      password: ecommerce
+      host: localhost
+      port: 27017
+      database: ecom_customer
+      authentication-database: admin
+  application:
+    name: customer-service
+
+server:
+  port: 8080
