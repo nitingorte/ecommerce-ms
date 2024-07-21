@@ -7,6 +7,8 @@ import com.ecommerce.order.model.OrderRequest;
 import com.ecommerce.order.model.OrderResponse;
 import com.ecommerce.order.model.orderline.OrderLineRequest;
 import com.ecommerce.order.model.product.PurchaseRequest;
+import com.ecommerce.order.payment.PaymentClient;
+import com.ecommerce.order.payment.PaymentRequest;
 import com.ecommerce.order.repository.OrderRepository;
 import com.ecommerce.order.service.CustomerClient;
 import com.ecommerce.order.service.OrderMapper;
@@ -27,13 +29,15 @@ public class OrderServiceImpl implements OrderService {
     private final OrderLineService orderLineService;
     private OrderMapper orderMapper;
     private final OrderProducer orderProducer;
+    private final PaymentClient paymentClient;
 
-    public OrderServiceImpl(OrderRepository orderRepository, CustomerClient customerClient, ProductClient productClient, OrderLineService orderLineService, OrderProducer orderProducer) {
+    public OrderServiceImpl(OrderRepository orderRepository, CustomerClient customerClient, ProductClient productClient, OrderLineService orderLineService, OrderProducer orderProducer, PaymentClient paymentClient) {
         this.orderRepository = orderRepository;
         this.customerClient = customerClient;
         this.productClient = productClient;
         this.orderLineService = orderLineService;
         this.orderProducer = orderProducer;
+        this.paymentClient = paymentClient;
     }
 
     @Override
@@ -54,6 +58,17 @@ public class OrderServiceImpl implements OrderService {
                     )
             );
         }
+
+        var paymentRequest = new PaymentRequest(
+                orderRequest.getAmount(),
+                orderRequest.getPaymentMethod(),
+                orderRequest.getId(),
+                orderRequest.getReference(),
+                customer
+        );
+
+        paymentClient.requestOrderPayment(paymentRequest);
+
         orderProducer.sendOrderConfirmation(
                 new OrderConfirmation(
                         orderRequest.getReference(),
