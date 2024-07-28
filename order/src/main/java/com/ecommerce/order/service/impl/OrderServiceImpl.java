@@ -15,30 +15,23 @@ import com.ecommerce.order.service.OrderMapper;
 import com.ecommerce.order.service.OrderService;
 import com.ecommerce.order.service.ProductClient;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final CustomerClient customerClient;
     private final ProductClient productClient;
     private final OrderLineService orderLineService;
-    private OrderMapper orderMapper;
+    private final OrderMapper orderMapper;
     private final OrderProducer orderProducer;
     private final PaymentClient paymentClient;
-
-    public OrderServiceImpl(OrderRepository orderRepository, CustomerClient customerClient, ProductClient productClient, OrderLineService orderLineService, OrderProducer orderProducer, PaymentClient paymentClient) {
-        this.orderRepository = orderRepository;
-        this.customerClient = customerClient;
-        this.productClient = productClient;
-        this.orderLineService = orderLineService;
-        this.orderProducer = orderProducer;
-        this.paymentClient = paymentClient;
-    }
 
     @Override
     public Integer createOrder(OrderRequest orderRequest) {
