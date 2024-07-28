@@ -9,6 +9,7 @@ import com.ecommerce.product.model.ProductResponse;
 import com.ecommerce.product.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    private ProductMapper productMapper;
+    private final ProductMapper productMapper;
 
     @Override
     public Integer createProduct(ProductRequest productRequest) {

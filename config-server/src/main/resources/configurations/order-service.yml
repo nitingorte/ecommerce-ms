@@ -20,7 +20,7 @@ spring:
 application:
   config:
     customer-url: http://localhost:8085/api/v1/customers
-    product-url: http://localhost:8085/api/v1/customers
+    product-url: http://localhost:8085/api/v1/products
     payment-url: http://localhost:8085/api/v1/payments
 
 server:
